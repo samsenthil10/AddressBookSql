@@ -1,0 +1,112 @@
+mysql> create database address_book_service;
+Query OK, 1 row affected (0.17 sec)
+
+mysql> use address_book_service 
+Database changed
+mysql> 
+mysql> CREATE TABLE address_book(id INT unsigned NOT NULL AUTO_INCREMENT, first_name VARCHAR(100) NOT NULL, last_name VARCHAR(100) NOT NULL, address VARCHAR(200), city VARCHAR(50),state VARCHAR(30), zip INT unsigned, phone_number LONG, email VARCHAR(100), PRIMARY KEY (id));
+Query OK, 0 rows affected (0.73 sec)
+
+mysql> INSERT INTO address_book VALUE(1,"Senthil Kumar","S A","Home","Bangalore","Karnataka",560001,9035864648,"sasenthilk@gmail.com");
+Query OK, 1 row affected (0.08 sec)
+
+mysql> INSERT INTO address_book VALUE(2,"user","1","address1","city1","state1",1,1,"user1@gmail.com");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO address_book VALUE(3,"user","2","address2","city2","state1",2,2,"user2@gmail.com");
+Query OK, 1 row affected (0.12 sec)
+
+mysql> INSERT INTO address_book VALUE(4,"user","3","address3","city3","state2",3,3,"user3@gmail.com");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> INSERT INTO address_book VALUE(5,"user","4","address4","city4","state4",4,4,"user4@gmail.com");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> select * from address_book_service 
+    -> ;
+ERROR 1146 (42S02): Table 'address_book_service.address_book_service' doesn't exist
+mysql> select * from address_book;
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+| id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+|  1 | Senthil Kumar | S A       | Home     | Bangalore | Karnataka | 560001 | 9035864648   | sasenthilk@gmail.com |
+|  2 | user          | 1         | address1 | city1     | state1    |      1 | 1            | user1@gmail.com      |
+|  3 | user          | 2         | address2 | city2     | state1    |      2 | 2            | user2@gmail.com      |
+|  4 | user          | 3         | address3 | city3     | state2    |      3 | 3            | user3@gmail.com      |
+|  5 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+5 rows in set (0.00 sec)
+
+mysql> UPDATE address_book SET state = "state4" WHERE first_name = "user" AND last_name = "3";
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+| id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+|  1 | Senthil Kumar | S A       | Home     | Bangalore | Karnataka | 560001 | 9035864648   | sasenthilk@gmail.com |
+|  2 | user          | 1         | address1 | city1     | state1    |      1 | 1            | user1@gmail.com      |
+|  3 | user          | 2         | address2 | city2     | state1    |      2 | 2            | user2@gmail.com      |
+|  4 | user          | 3         | address3 | city3     | state4    |      3 | 3            | user3@gmail.com      |
+|  5 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+5 rows in set (0.00 sec)
+
+mysql> DELETE from address_book WHERE first_name = "user" AND last_name = "3";
+Query OK, 1 row affected (0.16 sec)
+
+mysql> select * from address_book;
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+| id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+|  1 | Senthil Kumar | S A       | Home     | Bangalore | Karnataka | 560001 | 9035864648   | sasenthilk@gmail.com |
+|  2 | user          | 1         | address1 | city1     | state1    |      1 | 1            | user1@gmail.com      |
+|  3 | user          | 2         | address2 | city2     | state1    |      2 | 2            | user2@gmail.com      |
+|  5 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT first_name , last_name , city FROM address_book WHERE CITY = "city2";
++------------+-----------+-------+
+| first_name | last_name | city  |
++------------+-----------+-------+
+| user       | 2         | city2 |
++------------+-----------+-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT first_name , last_name , city FROM address_book WHERE STATE = "state1";
++------------+-----------+-------+
+| first_name | last_name | city  |
++------------+-----------+-------+
+| user       | 1         | city1 |
+| user       | 2         | city2 |
++------------+-----------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM address_book WHERE city = "Bangalore" and state = "Karnataka";
++----------+
+| COUNT(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM address_book WHERE state = "state1" ORDER BY first_name, last_name;
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+| id | first_name | last_name | address  | city  | state  | zip  | phone_number | email           |
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+|  2 | user       | 1         | address1 | city1 | state1 |    1 | 1            | user1@gmail.com |
+|  3 | user       | 2         | address2 | city2 | state1 |    2 | 2            | user2@gmail.com |
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM address_book WHERE city = "city2" ORDER BY first_name, last_name;
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+| id | first_name | last_name | address  | city  | state  | zip  | phone_number | email           |
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+|  3 | user       | 2         | address2 | city2 | state1 |    2 | 2            | user2@gmail.com |
++----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> 
