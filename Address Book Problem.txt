@@ -109,4 +109,219 @@ mysql> SELECT * FROM address_book WHERE city = "city2" ORDER BY first_name, last
 +----+------------+-----------+----------+-------+--------+------+--------------+-----------------+
 1 row in set (0.00 sec)
 
-mysql> 
+mysql> ALTER TABLE address_book ADD (name VARCHAR(30), type VARCHAR(20));
+Query OK, 0 rows affected (0.82 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> DESCRIBE address_book;
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| id           | int unsigned | NO   | PRI | NULL    | auto_increment |
+| first_name   | varchar(100) | NO   |     | NULL    |                |
+| last_name    | varchar(100) | NO   |     | NULL    |                |
+| address      | varchar(200) | YES  |     | NULL    |                |
+| city         | varchar(50)  | YES  |     | NULL    |                |
+| state        | varchar(50)  | YES  |     | NULL    |                |
+| zip          | int unsigned | YES  |     | NULL    |                |
+| phone_number | mediumtext   | YES  |     | NULL    |                |
+| email        | varchar(100) | YES  |     | NULL    |                |
+| name         | varchar(30)  | YES  |     | NULL    |                |
+| type         | varchar(20)  | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+11 rows in set (0.00 sec)
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book1', `type`='Friend' WHERE `id`='1';
+Query OK, 1 row affected (0.18 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book1', `type`='Friend' WHERE `id`='2';
+Query OK, 1 row affected (0.35 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book2', `type`='Professional' WHERE `id`='3';
+Query OK, 1 row affected (0.32 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book1', `type`='Friend' WHERE `id`='5';
+Query OK, 1 row affected (0.18 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from address_book;
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+| id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                | name  | type         |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+|  1 | Senthil Kumar | S A       | Home     | Bangalore | Karnataka | 560001 | 9035864648   | sasenthilk@gmail.com | Book1 | Friend       |
+|  2 | user          | 1         | address1 | city1     | state1    |      1 | 1            | user1@gmail.com      | Book1 | Friend       |
+|  3 | user          | 2         | address2 | city2     | state1    |      2 | 2            | user2@gmail.com      | Book2 | Professional |
+|  5 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      | Book1 | Friend       |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(*),type FROM address_book GROUP BY (type);
++----------+--------------+
+| COUNT(*) | type         |
++----------+--------------+
+|        3 | Friend       |
+|        1 | Professional |
++----------+--------------+
+2 rows in set (0.00 sec)
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book1', `type`='Friend' WHERE `id`='1';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book1', `type`='Friend' WHERE `id`='2';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `name`='Book2', `type`='Professional' WHERE `id`='3';
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 1  Changed: 0  Warnings: 0
+
+mysql> UPDATE `address_book_service`.`address_book` SET `id`='4', `name`='Book1', `type`='Friend' WHERE `id`='5';
+Query OK, 1 row affected (0.19 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+Query OK, 1 row affected (0.22 sec)
+mysql> INSERT INTO `address_book_service`.`address_book` (`id`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone_number`, mysql> , `name`, `type`) VALUES ('5', 'user', '4', 'address4', 'city4', 'state4', '4', '4', 'user4@gmail.com', 'Book1', 'Family');
+mysql> select * from address_book
+    -> ;
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+| id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                | name  | type         |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+|  1 | Senthil Kumar | S A       | Home     | Bangalore | Karnataka | 560001 | 9035864648   | sasenthilk@gmail.com | Book1 | Friend       |
+|  2 | user          | 1         | address1 | city1     | state1    |      1 | 1            | user1@gmail.com      | Book1 | Friend       |
+|  3 | user          | 2         | address2 | city2     | state1    |      2 | 2            | user2@gmail.com      | Book2 | Professional |
+|  4 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      | Book1 | Friend       |
+|  5 | user          | 4         | address4 | city4     | state4    |      4 | 4            | user4@gmail.com      | Book1 | Family       |
++----+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> DROP TABLE address_book;
+Query OK, 0 rows affected (0.73 sec)
+
+mysql> create table address_book(book_id INT unsigned NOT NULL AUTO_INCREMENT, book_name VARCHAR(50), PRIMARY KEY(book_id));
+Query OK, 0 rows affected (1.82 sec)
+
+mysql> create table type(type_id INT unsigned NOT NULL AUTO_INCREMENT, type_name VARCHAR(50), PRIMARY KEY(type_id));
+Query OK, 0 rows affected (1.05 sec)
+
+mysql> CREATE TABLE contact(contact_id INT unsigned NOT NULL AUTO_INCREMENT, first_name VARCHAR(50) NOT NULL, last_name VARCHAR(50) NOT NULL, address VARCHAR(200), city VARCHAR(30), state VARCHAR(30), zip INT unsigned, phone_number BIGINT, email VARCHAR(320), address_book_id INT unsigned, PRIMARY KEY (contact_id), FOREIGN KEY (address_book_id) REFERENCES address_book(book_id) ON DELETE SET NULL ON UPDATE CASCADE);
+Query OK, 0 rows affected (1.52 sec)
+
+mysql> CREATE TABLE contact_type( contact_id INT unsigned NOT NULL, type_id INT unsigned NOT NULL, PRIMARY KEY (contact_id,type_id), FOREIGN KEY (contact_id) REFERENCES contact(contact_id) ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (type_id) REFERENCES type(type_id) ON DELETE CASCADE ON UPDATE CASCADE);
+Query OK, 0 rows affected (1.73 sec)
+
+mysql> INSERT INTO  address_book (book_name) VALUES("Book1"),("Book2");
+Query OK, 2 rows affected (0.22 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from address_book;
++---------+-----------+
+| book_id | book_name |
++---------+-----------+
+|       1 | Book1     |
+|       2 | Book2     |
++---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> INSERT INTO  type (type_name) VALUES("Family"),("Friends"),("Profession");
+Query OK, 3 rows affected (0.27 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from type;
++---------+------------+
+| type_id | type_name  |
++---------+------------+
+|       1 | Family     |
+|       2 | Friends    |
+|       3 | Profession |
++---------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from type where type_name = "Family";
++---------+-----------+
+| type_id | type_name |
++---------+-----------+
+|       1 | Family    |
++---------+-----------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO  contact(first_name, last_name, address, city, state, zip, phone_number, email, address_book_id) VALUES("Senthil Kumar","S A","home","Bangalore","Karnataka",560001,9035864648,"sasenthilk@gmail.com",1);
+Query OK, 1 row affected (0.26 sec)
+
+mysql> INSERT INTO `address_book_service`.`contact` (`contact_id`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone_number`, `email`, `address_book_id`) VALUES ('2', 'user', '1', 'address1', 'city1', 'state1', '1', '1', 'user1@gmail.com', '2');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> INSERT INTO `address_book_service`.`contact` (`contact_id`, `first_name`, `last_name`, `address`, `city`, `state`, `zip`, `phone_number`, `email`, `address_book_id`) VALUES ('3', 'user', '2', 'address2', 'city2', 'state1', '2', '2', 'user2@gmail.com', '1');
+Query OK, 1 row affected (0.19 sec)
+
+mysql> select * from contact;
++------------+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-----------------+
+| contact_id | first_name    | last_name | address  | city      | state     | zip    | phone_number | email                | address_book_id |
++------------+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-----------------+
+|          1 | Senthil Kumar | S A       | home     | Bangalore | Karnataka | 560001 |   9035864648 | sasenthilk@gmail.com |               1 |
+|          2 | user          | 1         | address1 | city1     | state1    |      1 |            1 | user1@gmail.com      |               2 |
+|          3 | user          | 2         | address2 | city2     | state1    |      2 |            2 | user2@gmail.com      |               1 |
++------------+---------------+-----------+----------+-----------+-----------+--------+--------------+----------------------+-----------------+
+3 rows in set (0.01 sec)
+
+mysql> INSERT INTO contact_type VALUES(1,1),(1,2),(2,3),(3,2);
+Query OK, 4 rows affected (0.38 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * from contact_type;
++------------+---------+
+| contact_id | type_id |
++------------+---------+
+|          1 |       1 |
+|          1 |       2 |
+|          3 |       2 |
+|          2 |       3 |
++------------+---------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT first_name , last_name , city FROM contact  WHERE CITY = "Bangalore";
++---------------+-----------+-----------+
+| first_name    | last_name | city      |
++---------------+-----------+-----------+
+| Senthil Kumar | S A       | Bangalore |
++---------------+-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT first_name , last_name , city, state FROM contact  WHERE state = "Karnataka";
++---------------+-----------+-----------+-----------+
+| first_name    | last_name | city      | state     |
++---------------+-----------+-----------+-----------+
+| Senthil Kumar | S A       | Bangalore | Karnataka |
++---------------+-----------+-----------+-----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(*) FROM contact WHERE city = "Bangalore" and state = "Karnataka";
++----------+
+| COUNT(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM contact WHERE city = "Bangalore" ORDER BY first_name, last_name;
++------------+---------------+-----------+---------+-----------+-----------+--------+--------------+----------------------+-----------------+
+| contact_id | first_name    | last_name | address | city      | state     | zip    | phone_number | email                | address_book_id |
++------------+---------------+-----------+---------+-----------+-----------+--------+--------------+----------------------+-----------------+
+|          1 | Senthil Kumar | S A       | home    | Bangalore | Karnataka | 560001 |   9035864648 | sasenthilk@gmail.com |               1 |
++------------+---------------+-----------+---------+-----------+-----------+--------+--------------+----------------------+-----------------+
+1 row in set (0.03 sec)
+
+mysql> SELECT COUNT(*) FROM contact_type GROUP BY (type_id);
++----------+
+| COUNT(*) |
++----------+
+|        1 |
+|        2 |
+|        1 |
++----------+
+3 rows in set (0.00 sec)
+
+mysql> ^C
+
